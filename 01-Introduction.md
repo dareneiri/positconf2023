@@ -48,16 +48,17 @@ This troubleshooting approach can potentially eat up time away from
 actually doing analytically work – I’ve certainly been down that road! I
 would argue that in most cases, it makes sense to spend a bit of extra
 time implementing logging into your code so that you not only have a
-better way to troubleshoot and debug your code, but it can allow you to
+better way to troubleshoot and debug your code, but it enables you to
 monitor the performance of your code, and review what is happening
 underneath the hood when you run into unexpected errors and unusual
 behavior.
 
-The reasons below provide use cases for logging. The examples are meant
-to simple. In the upcoming sections, we’ll dive into better approaches
-for logging (e.g., using something other than `print()` or `cat()`
-functions). However, I imagine that for many who have some logging
-implemented, this is the approach you’re using today!
+The reasons below provide use cases for logging. The reasons are not
+fully encompassing, ad the examples are meant to simple. In the upcoming
+sections, we’ll dive into better approaches for logging (e.g., using
+something other than `print()` or `cat()` functions). However, I imagine
+that for many who have some logging implemented, this is the approach
+you’re using today!
 
 ## Debugging and Troubleshooting
 
@@ -124,8 +125,10 @@ It can also be useful to know and document the time it takes to run an
 analysis, especially if you have multiple steps involved and you want to
 monitor the time it takes to run Chunk A, Chunk B, Chunk C, etc.
 
-There’s a few useful packages that help with this ({tictoc}), but you
-can also use `Sys.time`.
+There’s a few useful packages that help with this
+([{tictoc}](https://github.com/collectivemedia/tictoc),
+[{microbenchmark}](https://github.com/olafmersmann/microbenchmark)), but
+you can also use `Sys.time`.
 
 ``` r
 # start timer
@@ -151,7 +154,7 @@ time_elapsed <- end_time - start_time
 cat("Total time elapsed: ", time_elapsed, "seconds")
 ```
 
-    ## Total time elapsed:  5.006801 seconds
+    ## Total time elapsed:  5.007979 seconds
 
 ## Monitoring
 
@@ -183,21 +186,22 @@ for (i in rand_int) {
 }
 ```
 
-    ## [1] "The numerator value is 30"
+    ## [1] "The numerator value is 60"
     ## [1] "Divided an even number"
-    ## [1] "The numerator value is 97"
+    ## [1] "The numerator value is 15"
     ## [1] "Divided by an odd number"
-    ## [1] "The numerator value is 36"
+    ## [1] "The numerator value is 44"
     ## [1] "Divided an even number"
-    ## [1] "The numerator value is 98"
+    ## [1] "The numerator value is 76"
     ## [1] "Divided an even number"
-    ## [1] "The numerator value is 92"
+    ## [1] "The numerator value is 18"
     ## [1] "Divided an even number"
 
-Let’s do a `tryCatch` example as another illustration for logging. 1.
-We’ll take our variable `i`, and check if it’s even 1. If it’s even,
-then we’ll try to do `log(i)` 1. If `i` is odd, then don’t do anything
-else.
+Let’s do a `tryCatch` example as another illustration for logging.
+
+1.  We’ll take our variable `i`, and check if it’s even
+    1.  If it’s even, then we’ll try to do `log(i)`
+2.  If `i` is odd, then don’t do anything else.
 
 We should expect that when `i` is non-positive, there will be a warning,
 which should trigger additional messages.
@@ -210,6 +214,8 @@ log(-1)
 
     ## [1] NaN
 
+Let’s run a full example.
+
 ``` r
 rand_int <- sample(-2:1, 3)
 
@@ -217,14 +223,18 @@ for (i in rand_int) {
   print(paste0("Starting loop. The value of i is ", i))
   modulo_result <- i%%2
   if (modulo_result == 0) {
+    
     print("Variable i is an EVEN number") 
     # proceed to do some additional steps here
     tryCatch(
       #let's try to take the log  
       print(paste("The log of i is: ", log(i)))
       , warning = function(w) {
+        
         #print error message
         print(paste0("Uh oh. Something went wrong. Is i a negative number?:", w))
+        
+        #do something else instead if warning is triggered
       }
     
     )
@@ -236,12 +246,14 @@ for (i in rand_int) {
 
     ## [1] "Starting loop. The value of i is -1"
     ## [1] "Variable i is an ODD number"
-    ## [1] "Starting loop. The value of i is 0"
-    ## [1] "Variable i is an EVEN number"
-    ## [1] "The log of i is:  -Inf"
+    ## [1] "Starting loop. The value of i is 1"
+    ## [1] "Variable i is an ODD number"
     ## [1] "Starting loop. The value of i is -2"
     ## [1] "Variable i is an EVEN number"
     ## [1] "Uh oh. Something went wrong. Is i a negative number?:simpleWarning in log(i): NaNs produced\n"
+
+Now we’re starting to see the path the code is taking as the value of
+`i` changes for each iteration.
 
 If we wanted to, we can also check for `Inf` values produced through
 `log(0)`, which is a different result when you attempt to log a
