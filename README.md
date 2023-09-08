@@ -1,2 +1,4 @@
-# positconf2023
-Supplementary information associated with talk presented at Posit::Conf(2023)
+# Opinionated Thoughts About Logging in R
+
+This repo contains supplementary information associated with a talk presented at Posit::Conf(2023), titled "Why You Should Add Logging To Your Code"
+
