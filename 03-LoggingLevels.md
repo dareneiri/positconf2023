@@ -43,7 +43,7 @@ suppressPackageStartupMessages(
 logger <- logger()
 
 log4r::debug(logger, "This is a debug message")
-log4r::info(logger, "This is a informational message")
+log4r::info(logger, "This is an informational message")
 log4r::warn(logger, "This is a warning message")
 log4r::error(logger, "This is an error message")
 ```
@@ -76,7 +76,6 @@ log4r::error(logger, "This is an error message")
     ## WARN  [2023-09-14 15:22:23] This is a warning message
     ## ERROR [2023-09-14 15:22:23] This is an error message
 
-
 # What Logging Levels Exist?
 
 We’ve gotten into a few logging levels, but there are a few more to be
@@ -93,12 +92,3 @@ I’ve also included a few examples of my own below.
 | WARNING | Outputs a message that is recoverable and does not affect the final output of your code                                                          | Maybe a step involves changing the data type (numeric to character, for example), assuming it’s okay to change it. It shouldn’t cause problems, but you should let your user know. | `warn(logger, "Ambiguous date format. Assuming date format is mm-dd-yyyy.")`                          |
 | ERROR   | Something bad happened, but there is an alternative solution and is recoverable.                                                                 | You attempt to connect to a database, but it failed, so it’s using a different backup database instead.                                                                            | `error(logger, "Could not connect to database. Used secondary database connection instead.")`         |
 | FATAL   | Something bad happened, and it is not recoverable. The program must quit.                                                                        | You cannot connect to any databases, and it’s required for your program to run, and there are no alternatives.                                                                     | `fatal(logger, "Could not establish connection to primary or secondary database. Stopping process.")` |
-
-Having a variety of levels in your code is useful, because it helps
-someone else understand the severity of the error, and it provides you
-with greater flexibility if you need to increase or decrease the
-verbosity of your logging output.
-
-Can you think of an instances in your own code where you may want to use
-INFO for a particular part of your code, but WARNING or ERROR for
-something else?
