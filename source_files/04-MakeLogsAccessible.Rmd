@@ -1,0 +1,125 @@
+---
+title: "04 - Making Logs Accessible"
+output:
+  github_document:
+    toc: true
+    toc_depth: 2
+date: "2023-09-08"
+---
+
+So far, we have discussed:
+
+1.  What logging is
+2.  Why logging can be useful
+3.  What logging levels are, and examples on which level to use
+
+Now, we will dive into looking at logs beyond your Console in the RStudio IDE. Logs are more useful when they're accessible for review, whether that is in some local .log file, or if it's stored in the cloud through a service like Azure Monitor or AWS CloudWatch. Both options are perfect solutions, depending on what you are looking for, and what resources you have available.
+
+# Going beyond console logs
+
+In our previous example, when we ran our logging code, it would print it out in the Console.
+
+```{r, results = "hold"}
+suppressPackageStartupMessages(
+  library(log4r)
+)
+
+logger <- logger()
+
+log4r::info(logger, "This is an informational message")
+
+```
+
+I'll further illustrate this with a screenshot of my IDE running the same code:
+
+![](images/04-console-image.png)
+
+It would be nice to have these logging messages inside a logging file you can review. This is especially true if you're running your code not in an IDE, but on some separate system where code isn't being run interactively.
+
+We can go beyond logging to the console by using an `appender.` Appenders are a common feature in logging packages, and in log4r, they are used to determine the destination of the logging output. log4r has four different appenders:
+
+1.  `file_appender` for writing to an external file
+2.  `syslog_appneder` for writing to a system log on Linux, Mac, or other Unix-based OS
+3.  `http_appender` for sending the log that accepts HTTP requests (like an API)
+4.  `tcp_appender` for writing to a TCP connection (over a network, maybe a localized logging storage system like Splunk).
+
+I will review `file_appender` and `syslog_appender`
+
+# Using `file_appender`
+
+Let's use our previous example, and modify it to use a `file_appender`
+
+```{r, results = "hold"}
+suppressPackageStartupMessages(
+  library(log4r)
+)
+
+file <- "log.txt"
+logger <- logger(appenders = file_appender(file = file))
+
+log4r::info(logger, "This is an informational message to be sent to my log.txt file")
+
+```
+
+Running this chunk above will not output anything in the console. It will instead start writing to your `log.txt` file.
+
+```{bash, eval=FALSE}
+$ cat log.txt 
+INFO  [2023-09-14 15:37:39] This is an informational message to be sent to my log.txt file
+
+```
+
+If you do need an option to write to the log file and another appender, you can create a list of appenders:
+
+```{r}
+logger <- logger(appenders = c(console_appender(), file_appender(file = file)))
+log4r::info(logger, "This is an informational message that should append to my Console and file")
+
+```
+
+Which will print to the Console, and also in our `log.txt` file.
+
+```{bash, eval=FALSE}
+$ cat log.txt 
+INFO  [2023-09-14 15:37:39] This is an informational message to be sent to my log.txt file
+INFO  [2023-09-14 15:37:41] This is an informational message that should append to my Console and file
+
+By using the `file_appender`, you can start to keep track of logging events 
+```
+
+# Using `syslog_appender`
+
+When you use `file_appender`, those logs remain wherever they are stored. This can be inconvenient if you are trying to access those log files, and it's on a production system or some other machine you don't easily have access to (who wants to log into another machine just to view logs?)
+
+Using `syslog_appender` can make accessing logs more convenient because it will be stored in a centralized location with other logs. And typically, your IT department may already be collecting logs from the system's syslog.
+
+## What are syslog files?
+
+[Syslog](https://en.wikipedia.org/wiki/Syslog) is a messaging protocol, and logging events from various software processes on the system will write to a syslog file, typically in `/var/log/syslog` on \*nix-based systems.
+
+If you have used Ubuntu or similar Linux OS, you should be able to find your syslog file. We will not cover Mac or Windows for now.
+
+Syslog is a convenient location to store logs because:
+
+1.  It's a location where logs are already stored
+2.  There are solutions that leverage the `syslog` files that can enhance your logging capability (Azure Log Analytics, AWS CloudWatch)
+
+So let's dive into `syslog_appender`
+
+## log4r and `syslog_appender`
+
+To use `syslog_appender`, we first also need `rsyslog`. See the log4r [vignette "Logging Beyond Local Files"](https://rdrr.io/cran/log4r/f/vignettes/logging-beyond-local-files.Rmd) for more information.
+
+```{r, results = "hold"}
+suppressPackageStartupMessages({
+  library(rsyslog)
+  library(log4r)
+})
+
+logger <- logger(appenders = syslog_appender("my-syslog-example"))
+
+log4r::info(logger, "This is an informational message to be sent to syslog")
+
+```
+
+Using the code above, you should see an entry in your `syslog` file. Here's a [Posit Community thread that gives an example of using log4r and writing to syslog](https://community.rstudio.com/t/write-to-syslog-from-r/69674/2).

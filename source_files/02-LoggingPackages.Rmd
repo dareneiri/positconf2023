@@ -1,0 +1,32 @@
+---
+title: "02 - Logging Packages"
+output:
+  github_document:
+    toc: true
+    toc_depth: 2
+date: "2023-09-08"
+---
+
+There are several package options for logging in R. In no particular order:
+
+-   [logger](https://daroczig.github.io/logger/). Last CRAN update 2 years ago (as of 9/2023)
+- [log4r](https://cran.r-project.org/web/packages/log4r/index.html). Hadley has [added](https://github.com/johnmyleswhite/log4r/pull/28) [a](https://github.com/johnmyleswhite/log4r/pull/27) few PRs and has [particular interest into it](https://hadley.quarto.pub/logging/#additional-logging) since [Aaron Jacobs](https://unconj.ca/blog/about.html) is the maintainer and currently working at Posit
+- [futile.logger](https://github.com/zatonovo/futile.logger). Have not fully explored. Still being maintained. 
+- [azlogr](https://atalv.github.io/azlogr/). Extension of logger package, but conveniently sends logs to Azure Log Analytics Workspace via API, which can be useful. 
+- [paws](https://github.com/paws-r/paws). Paws is a Package for Amazon Web Services in R. Convenient package for sending logs to Amazon CloudWatch
+
+In the upcoming examples, I will be using log4r, simply because that is what I am primarily using today. When I examined different logging options, what attracted me to use log4r was the [microbenchmark analysis done by the package developer of log4r](https://cran.r-project.org/web/packages/log4r/vignettes/performance.html), and log4r performed quite well when timing how long it took to print out messages: 
+
+```r {eval=FALSE}
+print(info_bench, order = "median")
+#> Unit: microseconds
+#>           expr      min        lq       mean    median        uq       max
+#>            cat   19.727   24.8665   29.67838   27.4510   30.4120  1059.446
+#>          log4r   14.296   26.0990   38.78562   32.0350   38.8730  2111.388
+#>           rlog   44.754   59.5615   67.99791   66.2240   73.0670   744.355
+#>         logger  152.856  175.9850  196.45468  186.4345  200.5960  2265.367
+#>        logging  195.847  222.2560  252.33351  233.1320  248.1000  5634.985
+#>            lgr  371.837  402.0790  498.85653  415.8595  437.0245 25077.198
+#>         loggit  514.625  551.1530  632.20753  567.2740  587.6315  3101.445
+#>  futile.logger 1509.811 1593.7180 1680.18994 1626.2340 1662.5675  5869.816
+```
