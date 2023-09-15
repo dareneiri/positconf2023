@@ -48,9 +48,9 @@ log4r::warn(logger, "This is a warning message")
 log4r::error(logger, "This is an error message")
 ```
 
-    ## INFO  [2023-09-13 23:29:45] This is a informational message
-    ## WARN  [2023-09-13 23:29:45] This is a warning message
-    ## ERROR [2023-09-13 23:29:45] This is an error message
+    ## INFO  [2023-09-14 15:22:23] This is an informational message
+    ## WARN  [2023-09-14 15:22:23] This is a warning message
+    ## ERROR [2023-09-14 15:22:23] This is an error message
 
 See how in the above example, we have four different logging levels
 (debug, info, warn, and error). Only three of them printed out
@@ -71,10 +71,11 @@ log4r::warn(logger, "This is a warning message")
 log4r::error(logger, "This is an error message")
 ```
 
-    ## DEBUG [2023-09-13 23:29:45] This is a debug message
-    ## INFO  [2023-09-13 23:29:45] This is a informational message
-    ## WARN  [2023-09-13 23:29:45] This is a warning message
-    ## ERROR [2023-09-13 23:29:45] This is an error message
+    ## DEBUG [2023-09-14 15:22:23] This is a debug message
+    ## INFO  [2023-09-14 15:22:23] This is a informational message
+    ## WARN  [2023-09-14 15:22:23] This is a warning message
+    ## ERROR [2023-09-14 15:22:23] This is an error message
+
 
 # What Logging Levels Exist?
 
@@ -83,14 +84,15 @@ aware of. And what do they mean anyways?
 
 A great resource to start off with is actually from the [python logging
 package.](https://docs.python.org/3/library/logging.html#logging-levels).
+I’ve also included a few examples of my own below.
 
-| Level   | Description                                                                                                                                      | Example                                                                                                                                                                            |
-|---------|--------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| DEBUG   | Messages that are helpful in providing an exceptional level of detail that you normally would not need to see, especially for debugging purposes | Printing out the output of something mid-way through a series of processing steps, just to check that things look right.                                                           |
-| INFO    | Describes steps or processes happening in your code                                                                                              | If you are connecting to a database, you may have a message saying “Connecting to external database”                                                                               |
-| WARNING | Outputs a message that is recoverable and does not affect the final output of your code                                                          | Maybe a step involves changing the data type (numeric to character, for example), assuming it’s okay to change it. It shouldn’t cause problems, but you should let your user know. |
-| ERROR   | Something bad happened, but there is an alternative solution and is recoverable.                                                                 | You attempt to connect to a database, but it failed, so it’s using a different backup database instead.                                                                            |
-| FATAL   | Something bad happened, and it is not recoverable. The program must quit.                                                                        | You cannot connect to any databases, and it’s required for your program to run, and there are no alternatives.                                                                     |
+| Level   | Description                                                                                                                                      | Example                                                                                                                                                                            | Code Example                                                                                          |
+|---------|--------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| DEBUG   | Messages that are helpful in providing an exceptional level of detail that you normally would not need to see, especially for debugging purposes | Printing out the output of something mid-way through a series of processing steps, just to check that things look right.                                                           | `debug(logger, paste0("What my df looks like before processing: ", df))`                              |
+| INFO    | Describes steps or processes happening in your code                                                                                              | If you are connecting to a database, you may have a message saying “Connecting to external database”                                                                               | `info(logger, "Attempting to connect to database")`                                                   |
+| WARNING | Outputs a message that is recoverable and does not affect the final output of your code                                                          | Maybe a step involves changing the data type (numeric to character, for example), assuming it’s okay to change it. It shouldn’t cause problems, but you should let your user know. | `warn(logger, "Ambiguous date format. Assuming date format is mm-dd-yyyy.")`                          |
+| ERROR   | Something bad happened, but there is an alternative solution and is recoverable.                                                                 | You attempt to connect to a database, but it failed, so it’s using a different backup database instead.                                                                            | `error(logger, "Could not connect to database. Used secondary database connection instead.")`         |
+| FATAL   | Something bad happened, and it is not recoverable. The program must quit.                                                                        | You cannot connect to any databases, and it’s required for your program to run, and there are no alternatives.                                                                     | `fatal(logger, "Could not establish connection to primary or secondary database. Stopping process.")` |
 
 Having a variety of levels in your code is useful, because it helps
 someone else understand the severity of the error, and it provides you
