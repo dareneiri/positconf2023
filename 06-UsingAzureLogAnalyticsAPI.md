@@ -28,13 +28,13 @@ To send logs to Azure Log Analytics via API, you need some information
 to identify where to send the logs, and for authentication.
 
 1.  Azure Log Analytics Customer/Workspace ID
-2.  [View Microsoft
-    Documentation](https://learn.microsoft.com/en-us/bonsai/cookbook/get-law-id)
-    to find this Workspace ID
-3.  Azure Log Analytics Shared Key
-4.  [See this Microsoft
-    thread](https://learn.microsoft.com/en-us/answers/questions/1154380/where-is-azure-is-the-primary-key-and-workspace-id)
-    for finding your shared Key.
+    1.  [View Microsoft
+        Documentation](https://learn.microsoft.com/en-us/bonsai/cookbook/get-law-id)
+        to find this Workspace ID
+2.  Azure Log Analytics Shared Key
+    1.  [See this Microsoft
+        thread](https://learn.microsoft.com/en-us/answers/questions/1154380/where-is-azure-is-the-primary-key-and-workspace-id)
+        for finding your shared Key.
 
 # Set Up
 
@@ -82,7 +82,7 @@ take a few minutes for the log data to appear, so it is not
 instantaneous. See the time difference between `time_s` and
 `TimeGenerated`.
 
-<img src="images/azlogr-loganalytics.png" width="1000" />
+<img src="../images/azlogr-loganalytics.png" width="1000" />
 
 You can start to imagine that if you had multiple APIs, you could
 separate your logs into its own table. You could also send structured
@@ -121,4 +121,4 @@ logger_info("log info sent to Azure")
 
 Now we have more structured logging!
 
-<img src="images/azlogr-loganalytics2.png" width="1000" />
+<img src="../images/azlogr-loganalytics2.png" width="1000" />
