@@ -345,7 +345,7 @@ Result:  2.5 </code></pre>
 <span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Total time elapsed: "</span>, time_elapsed, <span class="st">"seconds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Total time elapsed:  5.00682 seconds</code></pre>
+<pre><code>Total time elapsed:  5.00531 seconds</code></pre>
 </div>
 </div>
 </section>
@@ -371,16 +371,16 @@ Result:  2.5 </code></pre>
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># don't do anything else</span></span>
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "The numerator value is 98"
-[1] "Divided an even number"
-[1] "The numerator value is 94"
-[1] "Divided an even number"
-[1] "The numerator value is 67"
+<pre><code>[1] "The numerator value is 61"
 [1] "Divided by an odd number"
-[1] "The numerator value is 30"
+[1] "The numerator value is 12"
 [1] "Divided an even number"
-[1] "The numerator value is 20"
-[1] "Divided an even number"</code></pre>
+[1] "The numerator value is 11"
+[1] "Divided by an odd number"
+[1] "The numerator value is 5"
+[1] "Divided by an odd number"
+[1] "The numerator value is 43"
+[1] "Divided by an odd number"</code></pre>
 </div>
 </div>
 <p>Let’s do a <code>tryCatch</code> example as another illustration for logging.</p>
@@ -429,13 +429,14 @@ Result:  2.5 </code></pre>
 <span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># don't do anything else</span></span>
 <span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Starting loop. The value of i is -1"
-[1] "Variable i is an ODD number"
-[1] "Starting loop. The value of i is -2"
+<pre><code>[1] "Starting loop. The value of i is -2"
 [1] "Variable i is an EVEN number"
 [1] "Uh oh. Something went wrong. Is i a negative number?:simpleWarning in log(i): NaNs produced\n"
 [1] "Starting loop. The value of i is 1"
-[1] "Variable i is an ODD number"</code></pre>
+[1] "Variable i is an ODD number"
+[1] "Starting loop. The value of i is 0"
+[1] "Variable i is an EVEN number"
+[1] "The log of i is:  -Inf"</code></pre>
 </div>
 </div>
 <p>Now we’re starting to see the path the code is taking as the value of <code>i</code> changes for each iteration.</p>

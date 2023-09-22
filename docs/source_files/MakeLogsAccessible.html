@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Logging Levels</title>
+<title>Making Logs Accessible</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -105,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../source_files/Introduction.html">Basics</a></li><li class="breadcrumb-item"><a href="../source_files/LoggingLevels.html">Logging Levels</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../source_files/Introduction.html">Basics</a></li><li class="breadcrumb-item"><a href="../source_files/MakeLogsAccessible.html">Making Logs Accessible</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -154,13 +154,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../source_files/LoggingLevels.html" class="sidebar-item-text sidebar-link active">
+  <a href="../source_files/LoggingLevels.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Logging Levels</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../source_files/MakeLogsAccessible.html" class="sidebar-item-text sidebar-link">
+  <a href="../source_files/MakeLogsAccessible.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Making Logs Accessible</span></a>
   </div>
 </li>
@@ -216,8 +216,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul class="collapse">
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#what-logging-levels-exist" id="toc-what-logging-levels-exist" class="nav-link" data-scroll-target="#what-logging-levels-exist">What Logging Levels Exist?</a></li>
+  <li><a href="#going-beyond-console-logs" id="toc-going-beyond-console-logs" class="nav-link active" data-scroll-target="#going-beyond-console-logs">Going beyond console logs</a></li>
+  <li><a href="#using-file_appender" id="toc-using-file_appender" class="nav-link" data-scroll-target="#using-file_appender">Using <code>file_appender</code></a></li>
+  <li><a href="#using-syslog_appender" id="toc-using-syslog_appender" class="nav-link" data-scroll-target="#using-syslog_appender">Using <code>syslog_appender</code></a>
+  <ul class="collapse">
+  <li><a href="#what-are-syslog-files" id="toc-what-are-syslog-files" class="nav-link" data-scroll-target="#what-are-syslog-files">What are syslog files?</a></li>
+  <li><a href="#log4r-and-syslog_appender" id="toc-log4r-and-syslog_appender" class="nav-link" data-scroll-target="#log4r-and-syslog_appender">log4r and <code>syslog_appender</code></a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -226,7 +231,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Logging Levels</h1>
+<h1 class="title">Making Logs Accessible</h1>
 </div>
 
 
@@ -241,110 +246,106 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
-<p>When you start to use a proper logging package, you first need to understanding what logging levels are.</p>
-<p>Logging levels allow you to categorize the type of message you want to communicate. When we used the <code>cat()</code> function to print out different steps in our code, you cannot easily tell if what your message is communicating is just informational, a warning, or perhaps even a error message. It may be clear to you, but it also needs to be clear to anyone else that may be interacting with your code. And writing <code>cat("INFO: An informational message")</code> is not very efficient.</p>
-<p>Another drawback to using only <code>cat()</code> is that maybe you want control over what messages get printed out based on some minimum threshold. In other words, maybe you have several informational messages in your code, but you only really need to see that output when you’re developing, and not when you’ve pushed your code to production. Having to delete those messages is inconvenient in case you need them again.</p>
-<p>Logging levels allows you to:</p>
+<p>So far, we have discussed:</p>
 <ol type="1">
-<li>Define the type of message</li>
-<li>Define a threshold for what messages display and when.</li>
+<li>What logging is</li>
+<li>Why logging can be useful</li>
+<li>What logging levels are, and examples on which level to use</li>
 </ol>
-<p>Let’s get into examples with log4r</p>
+<p>Now, we will dive into looking at logs beyond your Console in the RStudio IDE. Logs are more useful when they’re accessible for review, whether that is in some local .log file, or if it’s stored in the cloud through a service like Azure Monitor or AWS CloudWatch. Both options are perfect solutions, depending on what you are looking for, and what resources you have available.</p>
+<section id="going-beyond-console-logs" class="level1">
+<h1>Going beyond console logs</h1>
+<p>In our previous example, when we ran our logging code, it would print it out in the Console.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(log4r)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># We need to create a logger object. </span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># By default, logs will print to console </span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># and only show messages INFO and above</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>logger <span class="ot">&lt;-</span> <span class="fu">logger</span>()</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">debug</span>(logger, <span class="st">"This is a debug message"</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">info</span>(logger, <span class="st">"This is an informational message"</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">warn</span>(logger, <span class="st">"This is a warning message"</span>)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">error</span>(logger, <span class="st">"This is an error message"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>logger <span class="ot">&lt;-</span> <span class="fu">logger</span>()</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">info</span>(logger, <span class="st">"This is an informational message"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>INFO  [2023-09-22 15:20:46] This is an informational message
-WARN  [2023-09-22 15:20:46] This is a warning message
-ERROR [2023-09-22 15:20:46] This is an error message</code></pre>
+<pre><code>INFO  [2023-09-22 15:31:37] This is an informational message</code></pre>
 </div>
 </div>
-<p>See how in the above example, we have four different logging levels (debug, info, warn, and error). Only three of them printed out something. That’s because our <code>logger</code> object was left to the default <code>logger()</code> object of <code>INFO</code>.</p>
-<p>Let’s define it to print <code>DEBUG</code> so we can get that first <code>debug</code> message printed out.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(log4r)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>logger <span class="ot">&lt;-</span> <span class="fu">logger</span>(<span class="at">threshold =</span> <span class="st">"DEBUG"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">debug</span>(logger, <span class="st">"This is a debug message"</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">info</span>(logger, <span class="st">"This is a informational message"</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">warn</span>(logger, <span class="st">"This is a warning message"</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">error</span>(logger, <span class="st">"This is an error message"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>DEBUG [2023-09-22 15:20:46] This is a debug message
-INFO  [2023-09-22 15:20:46] This is a informational message
-WARN  [2023-09-22 15:20:46] This is a warning message
-ERROR [2023-09-22 15:20:46] This is an error message</code></pre>
-</div>
-</div>
+<p>I’ll further illustrate this with a screenshot of my IDE running the same code:</p>
+<p><img src="images/04-console-image.png" class="img-fluid"></p>
+<p>It would be nice to have these logging messages inside a logging file you can review. This is especially true if you’re running your code not in an IDE, but on some separate system where code isn’t being run interactively.</p>
+<p>We can go beyond logging to the console by using an <code>appender.</code> Appenders are a common feature in logging packages, and in log4r, they are used to determine the destination of the logging output. log4r has four different appenders:</p>
+<ol type="1">
+<li><code>file_appender</code> for writing to an external file</li>
+<li><code>syslog_appneder</code> for writing to a system log on Linux, Mac, or other Unix-based OS</li>
+<li><code>http_appender</code> for sending the log that accepts HTTP requests (like an API)</li>
+<li><code>tcp_appender</code> for writing to a TCP connection (over a network, maybe a localized logging storage system like Splunk).</li>
+</ol>
+<p>I will review <code>file_appender</code> and <code>syslog_appender</code></p>
 </section>
-<section id="what-logging-levels-exist" class="level1">
-<h1>What Logging Levels Exist?</h1>
-<p>We’ve gotten into a few logging levels, but there are a few more to be aware of. And what do they mean anyways?</p>
-<p>A great resource to start off with is actually from the <a href="https://docs.python.org/3/library/logging.html#logging-levels">python logging package.</a>. I’ve also included a few examples of my own below.</p>
-<table class="table">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Level</th>
-<th>Description</th>
-<th>Example</th>
-<th>Code Example</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>DEBUG</td>
-<td>Messages that are helpful in providing an exceptional level of detail that you normally would not need to see, especially for debugging purposes</td>
-<td>Printing out the output of something mid-way through a series of processing steps, just to check that things look right.</td>
-<td><code>debug(logger, paste0("What my df looks like before processing: ", df))</code></td>
-</tr>
-<tr class="even">
-<td>INFO</td>
-<td>Describes steps or processes happening in your code</td>
-<td>If you are connecting to a database, you may have a message saying “Connecting to external database”</td>
-<td><code>info(logger, "Attempting to connect to database")</code></td>
-</tr>
-<tr class="odd">
-<td>WARNING</td>
-<td>Outputs a message that is recoverable and does not affect the final output of your code</td>
-<td>Maybe a step involves changing the data type (numeric to character, for example), assuming it’s okay to change it. It shouldn’t cause problems, but you should let your user know.</td>
-<td><code>warn(logger, "Ambiguous date format. Assuming date format is mm-dd-yyyy.")</code></td>
-</tr>
-<tr class="even">
-<td>ERROR</td>
-<td>Something bad happened, but there is an alternative solution and is recoverable.</td>
-<td>You attempt to connect to a database, but it failed, so it’s using a different backup database instead.</td>
-<td><code>error(logger, "Could not connect to database. Used secondary database connection instead.")</code></td>
-</tr>
-<tr class="odd">
-<td>FATAL</td>
-<td>Something bad happened, and it is not recoverable. The program must quit.</td>
-<td>You cannot connect to any databases, and it’s required for your program to run, and there are no alternatives.</td>
-<td><code>fatal(logger, "Could not establish connection to primary or secondary database. Stopping process.")</code></td>
-</tr>
-</tbody>
-</table>
+<section id="using-file_appender" class="level1">
+<h1>Using <code>file_appender</code></h1>
+<p>Let’s use our previous example, and modify it to use a <code>file_appender</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(log4r)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="st">"log.txt"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>logger <span class="ot">&lt;-</span> <span class="fu">logger</span>(<span class="at">appenders =</span> <span class="fu">file_appender</span>(<span class="at">file =</span> file))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">info</span>(logger, <span class="st">"This is an informational message to be sent to my log.txt file"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Running this chunk above will not output anything in the console. It will instead start writing to your <code>log.txt</code> file.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat log.txt </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">INFO</span>  [2023-09-14 15:37:39] This is an informational message to be sent to my log.txt file</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If you do need an option to write to the log file and another appender, you can create a list of appenders:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>logger <span class="ot">&lt;-</span> <span class="fu">logger</span>(<span class="at">appenders =</span> <span class="fu">c</span>(<span class="fu">console_appender</span>(), <span class="fu">file_appender</span>(<span class="at">file =</span> file)))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">info</span>(logger, <span class="st">"This is an informational message that should append to my Console and file"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>INFO  [2023-09-22 15:31:37] This is an informational message that should append to my Console and file</code></pre>
+</div>
+</div>
+<p>Which will print to the Console, and also in our <code>log.txt</code> file.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat log.txt </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">INFO</span>  [2023-09-14 15:37:39] This is an informational message to be sent to my log.txt file</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="ex">INFO</span>  [2023-09-14 15:37:41] This is an informational message that should append to my Console and file</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>By using the <code>file_appender</code>, you can start to keep track of logging events</p>
+</section>
+<section id="using-syslog_appender" class="level1">
+<h1>Using <code>syslog_appender</code></h1>
+<p>When you use <code>file_appender</code>, those logs remain wherever they are stored. This can be inconvenient if you are trying to access those log files, and it’s on a production system or some other machine you don’t easily have access to (who wants to log into another machine just to view logs?)</p>
+<p>Using <code>syslog_appender</code> can make accessing logs more convenient because it will be stored in a centralized location with other logs. And typically, your IT department may already be collecting logs from the system’s syslog.</p>
+<section id="what-are-syslog-files" class="level2">
+<h2 class="anchored" data-anchor-id="what-are-syslog-files">What are syslog files?</h2>
+<p><a href="https://en.wikipedia.org/wiki/Syslog">Syslog</a> is a messaging protocol, and logging events from various software processes on the system will write to a syslog file, typically in <code>/var/log/syslog</code> on *nix-based systems.</p>
+<p>If you have used Ubuntu or similar Linux OS, you should be able to find your syslog file. We will not cover Mac or Windows for now.</p>
+<p>Syslog is a convenient location to store logs because:</p>
+<ol type="1">
+<li>It’s a location where logs are already stored</li>
+<li>There are solutions that leverage the <code>syslog</code> files that can enhance your logging capability (Azure Log Analytics, AWS CloudWatch)</li>
+</ol>
+<p>So let’s dive into <code>syslog_appender</code></p>
+</section>
+<section id="log4r-and-syslog_appender" class="level2">
+<h2 class="anchored" data-anchor-id="log4r-and-syslog_appender">log4r and <code>syslog_appender</code></h2>
+<p>To use <code>syslog_appender</code>, we first also need <code>rsyslog</code>. See the log4r <a href="https://rdrr.io/cran/log4r/f/vignettes/logging-beyond-local-files.Rmd">vignette “Logging Beyond Local Files”</a> for more information.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(rsyslog)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(log4r)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>logger <span class="ot">&lt;-</span> <span class="fu">logger</span>(<span class="at">appenders =</span> <span class="fu">syslog_appender</span>(<span class="st">"my-syslog-example"</span>))</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">info</span>(logger, <span class="st">"This is an informational message to be sent to syslog"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Using the code above, you should see an entry in your <code>syslog</code> file. Here’s a <a href="https://community.rstudio.com/t/write-to-syslog-from-r/69674/2">Posit Community thread that gives an example of using log4r and writing to syslog</a>.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
