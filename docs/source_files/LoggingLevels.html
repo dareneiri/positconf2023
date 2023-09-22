@@ -127,8 +127,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../source_files/StartHere.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Start Here</span></a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -267,9 +267,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">warn</span>(logger, <span class="st">"This is a warning message"</span>)</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">error</span>(logger, <span class="st">"This is an error message"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>INFO  [2023-09-22 15:31:30] This is an informational message
-WARN  [2023-09-22 15:31:30] This is a warning message
-ERROR [2023-09-22 15:31:30] This is an error message</code></pre>
+<pre><code>INFO  [2023-09-22 16:03:54] This is an informational message
+WARN  [2023-09-22 16:03:54] This is a warning message
+ERROR [2023-09-22 16:03:54] This is an error message</code></pre>
 </div>
 </div>
 <p>See how in the above example, we have four different logging levels (debug, info, warn, and error). Only three of them printed out something. That’s because our <code>logger</code> object was left to the default <code>logger()</code> object of <code>INFO</code>.</p>
@@ -284,10 +284,10 @@ ERROR [2023-09-22 15:31:30] This is an error message</code></pre>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">warn</span>(logger, <span class="st">"This is a warning message"</span>)</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">error</span>(logger, <span class="st">"This is an error message"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>DEBUG [2023-09-22 15:31:30] This is a debug message
-INFO  [2023-09-22 15:31:30] This is a informational message
-WARN  [2023-09-22 15:31:30] This is a warning message
-ERROR [2023-09-22 15:31:30] This is an error message</code></pre>
+<pre><code>DEBUG [2023-09-22 16:03:54] This is a debug message
+INFO  [2023-09-22 16:03:54] This is a informational message
+WARN  [2023-09-22 16:03:54] This is a warning message
+ERROR [2023-09-22 16:03:54] This is an error message</code></pre>
 </div>
 </div>
 </section>

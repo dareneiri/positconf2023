@@ -38,3 +38,27 @@ INFO  [2023-09-22 15:20:33] This is an informational message to be sent to my lo
 INFO  [2023-09-22 15:20:33] This is an informational message that should append to my Console and file
 INFO  [2023-09-22 15:20:53] This is an informational message to be sent to my log.txt file
 INFO  [2023-09-22 15:20:53] This is an informational message that should append to my Console and file
+INFO  [2023-09-22 15:31:37] This is an informational message to be sent to my log.txt file
+INFO  [2023-09-22 15:31:37] This is an informational message that should append to my Console and file
+INFO  [2023-09-22 15:36:48] This is an informational message to be sent to my log.txt file
+INFO  [2023-09-22 15:36:48] This is an informational message that should append to my Console and file
+INFO  [2023-09-22 15:48:59] This is an informational message to be sent to my log.txt file
+INFO  [2023-09-22 15:48:59] This is an informational message that should append to my Console and file
+INFO  [2023-09-22 15:51:08] This is an informational message to be sent to my log.txt file
+INFO  [2023-09-22 15:51:08] This is an informational message that should append to my Console and file
+INFO  [2023-09-22 15:52:52] This is an informational message to be sent to my log.txt file
+INFO  [2023-09-22 15:52:52] This is an informational message that should append to my Console and file
+INFO  [2023-09-22 15:56:16] This is an informational message to be sent to my log.txt file
+INFO  [2023-09-22 15:56:16] This is an informational message that should append to my Console and file
+INFO  [2023-09-22 15:59:13] This is an informational message to be sent to my log.txt file
+INFO  [2023-09-22 15:59:13] This is an informational message that should append to my Console and file
+INFO  [2023-09-22 15:59:51] This is an informational message to be sent to my log.txt file
+INFO  [2023-09-22 15:59:51] This is an informational message that should append to my Console and file
+INFO  [2023-09-22 16:00:05] This is an informational message to be sent to my log.txt file
+INFO  [2023-09-22 16:00:05] This is an informational message that should append to my Console and file
+INFO  [2023-09-22 16:00:51] This is an informational message to be sent to my log.txt file
+INFO  [2023-09-22 16:00:51] This is an informational message that should append to my Console and file
+INFO  [2023-09-22 16:01:20] This is an informational message to be sent to my log.txt file
+INFO  [2023-09-22 16:01:20] This is an informational message that should append to my Console and file
+INFO  [2023-09-22 16:04:01] This is an informational message to be sent to my log.txt file
+INFO  [2023-09-22 16:04:01] This is an informational message that should append to my Console and file

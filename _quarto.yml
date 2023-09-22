@@ -12,7 +12,7 @@ website:
   sidebar:
     style: "docked"
     contents:
-      - "source_files/StartHere.qmd"
+      - "index.qmd"
       - section: "Basics"
         contents:
           - "source_files/Introduction.qmd"
