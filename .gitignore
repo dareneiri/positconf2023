@@ -1,0 +1,6 @@
+.RData
+.Renviron
+.Rhistory
+/.quarto/
+.DS_Store
+.log.txt

@@ -1,0 +1,27 @@
+project:
+  type: website
+format:
+  html: 
+    theme: cosmo
+    fontsize: 0.85em
+    linestretch: 1.5
+    toc: true
+    toc-depth: 2
+website:
+  sidebar:
+    style: "docked"
+    contents:
+      - "source_files/StartHere.qmd"
+      - section: "Basics"
+        contents:
+          - "source_files/Introduction.qmd"
+          - "source_files/LoggingPackages.qmd"
+          - "source_files/LoggingLevels.qmd"
+          - "source_files/MakeLogsAccessible.qmd"
+      - section: "Logs in Azure"
+        contents:
+          - "source_files/AzureMonitorSysLogConfiguration.qmd"
+          - "source_files/UsingAzureLogAnalyticsAPI.qmd"
+      - section: "Additional Resources"
+        contents:
+          - "source_files/AdditionalResources.qmd"
