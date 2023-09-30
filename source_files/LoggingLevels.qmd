@@ -50,6 +50,10 @@ log4r::error(logger, "This is an error message")
 
 ```
 
+::: callout-tip
+## You do not need to define \`threshold\` statistically in your code. You can also define it as an environment variable, which gives you more flexibility to change the threshold depending on your needs, without changing the code itself.
+:::
+
 # What Logging Levels Exist?
 
 We've gotten into a few logging levels, but there are a few more to be aware of. And what do they mean anyways?
@@ -63,3 +67,13 @@ A great resource to start off with is actually from the [python logging package.
 | WARNING | Outputs a message that is recoverable and does not affect the final output of your code                                                          | Maybe a step involves changing the data type (numeric to character, for example), assuming it's okay to change it. It shouldn't cause problems, but you should let your user know. | `warn(logger, "Ambiguous date format. Assuming date format is mm-dd-yyyy.")`                          |
 | ERROR   | Something bad happened, but there is an alternative solution and is recoverable.                                                                 | You attempt to connect to a database, but it failed, so it's using a different backup database instead.                                                                            | `error(logger, "Could not connect to database. Used secondary database connection instead.")`         |
 | FATAL   | Something bad happened, and it is not recoverable. The program must quit.                                                                        | You cannot connect to any databases, and it's required for your program to run, and there are no alternatives.                                                                     | `fatal(logger, "Could not establish connection to primary or secondary database. Stopping process.")` |
+
+# What Should You Log?
+
+Determining what you should log, and how much, is really dependent on you and your own situation. Some organizations who have logging policies may already have formed their own opinions based on experience and problems they've uniquely encountered during their deployments.
+
+One cautionary story from [Jeff Atwood](https://en.wikipedia.org/wiki/Jeff_Atwood) (among many things, software developer and co-founder of Stack Overflow) discusses [The Problem With Logging](https://blog.codinghorror.com/the-problem-with-logging/). He recalls a time when logging itself was actually the source of buggy code when the server experienced heavy load (logging and database writing resulting in deadlocks). As a result, Stack Overflow logs only exception handling (e.g., result of `tryCatch`).
+
+Not everyone is building a website that will be heavily visited like Stack Overflow, so you may not even experience deadlocks. Maybe your API that you are logging is only receiving requests 10 times a day. Does that mean you should log every single outcome? Probably not. But having some informational messages at key and major parts of your code may by useful.
+
+In the next section I will discuss more concrete examples of logging and implementing it into your code, especially for exception handling.
