@@ -164,6 +164,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Making Logs Accessible</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../source_files/ConditionHandlingWithLogging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Condition Handling With Logging</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -218,6 +224,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#what-logging-levels-exist" id="toc-what-logging-levels-exist" class="nav-link" data-scroll-target="#what-logging-levels-exist">What Logging Levels Exist?</a></li>
+  <li><a href="#what-should-you-log" id="toc-what-should-you-log" class="nav-link" data-scroll-target="#what-should-you-log">What Should You Log?</a></li>
   </ul>
 </nav>
     </div>
@@ -267,9 +274,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">warn</span>(logger, <span class="st">"This is a warning message"</span>)</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">error</span>(logger, <span class="st">"This is an error message"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>INFO  [2023-09-22 16:03:54] This is an informational message
-WARN  [2023-09-22 16:03:54] This is a warning message
-ERROR [2023-09-22 16:03:54] This is an error message</code></pre>
+<pre><code>INFO  [2023-09-30 22:04:35] This is an informational message
+WARN  [2023-09-30 22:04:35] This is a warning message
+ERROR [2023-09-30 22:04:35] This is an error message</code></pre>
 </div>
 </div>
 <p>See how in the above example, we have four different logging levels (debug, info, warn, and error). Only three of them printed out something. That’s because our <code>logger</code> object was left to the default <code>logger()</code> object of <code>INFO</code>.</p>
@@ -284,10 +291,23 @@ ERROR [2023-09-22 16:03:54] This is an error message</code></pre>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">warn</span>(logger, <span class="st">"This is a warning message"</span>)</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">error</span>(logger, <span class="st">"This is an error message"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>DEBUG [2023-09-22 16:03:54] This is a debug message
-INFO  [2023-09-22 16:03:54] This is a informational message
-WARN  [2023-09-22 16:03:54] This is a warning message
-ERROR [2023-09-22 16:03:54] This is an error message</code></pre>
+<pre><code>DEBUG [2023-09-30 22:04:35] This is a debug message
+INFO  [2023-09-30 22:04:35] This is a informational message
+WARN  [2023-09-30 22:04:35] This is a warning message
+ERROR [2023-09-30 22:04:35] This is an error message</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+You do not need to define `threshold` statistically in your code. You can also define it as an environment variable, which gives you more flexibility to change the threshold depending on your needs, without changing the code itself.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
 </div>
 </div>
 </section>
@@ -343,6 +363,13 @@ ERROR [2023-09-22 16:03:54] This is an error message</code></pre>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="what-should-you-log" class="level1">
+<h1>What Should You Log?</h1>
+<p>Determining what you should log, and how much, is really dependent on you and your own situation. Some organizations who have logging policies may already have formed their own opinions based on experience and problems they’ve uniquely encountered during their deployments.</p>
+<p>One cautionary story from <a href="https://en.wikipedia.org/wiki/Jeff_Atwood">Jeff Atwood</a> (among many things, software developer and co-founder of Stack Overflow) discusses <a href="https://blog.codinghorror.com/the-problem-with-logging/">The Problem With Logging</a>. He recalls a time when logging itself was actually the source of buggy code when the server experienced heavy load (logging and database writing resulting in deadlocks). As a result, Stack Overflow logs only exception handling (e.g., result of <code>tryCatch</code>).</p>
+<p>Not everyone is building a website that will be heavily visited like Stack Overflow, so you may not even experience deadlocks. Maybe your API that you are logging is only receiving requests 10 times a day. Does that mean you should log every single outcome? Probably not. But having some informational messages at key and major parts of your code may by useful.</p>
+<p>In the next section I will discuss more concrete examples of logging and implementing it into your code, especially for exception handling.</p>
 
 
 </section>

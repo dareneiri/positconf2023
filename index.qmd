@@ -17,12 +17,13 @@ This documentation is also written from a perspective of having to service Shiny
 I have split up my content into separate sections for easier reading.
 
 1.  **Introduction to Logging:** I discuss what logging is, why it can be useful, and some examples that demonstrate its purpose
-2.  **Logging Packages**: I review a few logging packages I have found helpful. It is not meant to review all types of logging packages available.
-3.  **Logging Levels**: I dive into different logging levels, such as INFO, WARN, and ERROR, and how to strategically use them. I also discuss why you should not log everything, and how you need to be strategic in what you log.
-4.  **Making Logs Accessible**: I discuss how you can review your logs, either through writing to a local log file on your computer, or through cloud-based solutions. I focus on Azure.
-5.  **Configure Sending Syslogs to Azure Monitor**: This extends on the previous topic, along with instructions on setting up a Linux VM for pushing syslogs to Azure Monitor
-6.  **Using API to Send Syslogs to Azure Monitor**: This is an alternative approach to writing logs to syslog. If you're using Docker to run your R code, then this may be a better solution.
-7.  **Additional Resources**
+1.  **Logging Packages**: I review a few logging packages I have found helpful. It is not meant to review all types of logging packages available.
+1.  **Logging Levels**: I dive into different logging levels, such as INFO, WARN, and ERROR, and how to strategically use them. I also discuss why you should not log everything, and how you need to be strategic in what you log.
+1.  **Making Logs Accessible**: I discuss how you can review your logs, either through writing to a local log file on your computer, or through cloud-based solutions. I focus on Azure.
+1.  **Condition Handling With Logging**: Dive into what conditions are and how they're useful in logging things.
+1.  **Configure Sending Syslogs to Azure Monitor**: This extends on the previous topic, along with instructions on setting up a Linux VM for pushing syslogs to Azure Monitor
+1.  **Using API to Send Syslogs to Azure Monitor**: This is an alternative approach to writing logs to syslog. If you're using Docker to run your R code, then this may be a better solution.
+1.  **Additional Resources**
 
 ## About the Author
 

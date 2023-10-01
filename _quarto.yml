@@ -19,6 +19,7 @@ website:
           - "source_files/LoggingPackages.qmd"
           - "source_files/LoggingLevels.qmd"
           - "source_files/MakeLogsAccessible.qmd"
+          - "source_files/ConditionHandlingWithLogging.qmd"
       - section: "Logs in Azure"
         contents:
           - "source_files/AzureMonitorSysLogConfiguration.qmd"

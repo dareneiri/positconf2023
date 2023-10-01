@@ -164,6 +164,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Making Logs Accessible</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../source_files/ConditionHandlingWithLogging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Condition Handling With Logging</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -345,7 +351,7 @@ Result:  2.5 </code></pre>
 <span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Total time elapsed: "</span>, time_elapsed, <span class="st">"seconds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Total time elapsed:  5.006527 seconds</code></pre>
+<pre><code>Total time elapsed:  5.006858 seconds</code></pre>
 </div>
 </div>
 </section>
@@ -371,16 +377,16 @@ Result:  2.5 </code></pre>
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># don't do anything else</span></span>
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "The numerator value is 67"
-[1] "Divided by an odd number"
-[1] "The numerator value is 65"
-[1] "Divided by an odd number"
-[1] "The numerator value is 35"
-[1] "Divided by an odd number"
+<pre><code>[1] "The numerator value is 42"
+[1] "Divided an even number"
 [1] "The numerator value is 41"
 [1] "Divided by an odd number"
-[1] "The numerator value is 62"
-[1] "Divided an even number"</code></pre>
+[1] "The numerator value is 31"
+[1] "Divided by an odd number"
+[1] "The numerator value is 84"
+[1] "Divided an even number"
+[1] "The numerator value is 11"
+[1] "Divided by an odd number"</code></pre>
 </div>
 </div>
 <p>Let’s do a <code>tryCatch</code> example as another illustration for logging.</p>
@@ -429,13 +435,13 @@ Result:  2.5 </code></pre>
 <span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># don't do anything else</span></span>
 <span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Starting loop. The value of i is 1"
+<pre><code>[1] "Starting loop. The value of i is 0"
+[1] "Variable i is an EVEN number"
+[1] "The log of i is:  -Inf"
+[1] "Starting loop. The value of i is 1"
 [1] "Variable i is an ODD number"
 [1] "Starting loop. The value of i is -1"
-[1] "Variable i is an ODD number"
-[1] "Starting loop. The value of i is 0"
-[1] "Variable i is an EVEN number"
-[1] "The log of i is:  -Inf"</code></pre>
+[1] "Variable i is an ODD number"</code></pre>
 </div>
 </div>
 <p>Now we’re starting to see the path the code is taking as the value of <code>i</code> changes for each iteration.</p>

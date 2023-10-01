@@ -164,6 +164,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Making Logs Accessible</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../source_files/ConditionHandlingWithLogging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Condition Handling With Logging</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -265,7 +271,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">info</span>(logger, <span class="st">"This is an informational message"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>INFO  [2023-09-22 16:04:01] This is an informational message</code></pre>
+<pre><code>INFO  [2023-09-30 22:04:42] This is an informational message</code></pre>
 </div>
 </div>
 <p>I’ll further illustrate this with a screenshot of my IDE running the same code:</p>
@@ -303,7 +309,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>logger <span class="ot">&lt;-</span> <span class="fu">logger</span>(<span class="at">appenders =</span> <span class="fu">c</span>(<span class="fu">console_appender</span>(), <span class="fu">file_appender</span>(<span class="at">file =</span> file)))</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>log4r<span class="sc">::</span><span class="fu">info</span>(logger, <span class="st">"This is an informational message that should append to my Console and file"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>INFO  [2023-09-22 16:04:01] This is an informational message that should append to my Console and file</code></pre>
+<pre><code>INFO  [2023-09-30 22:04:42] This is an informational message that should append to my Console and file</code></pre>
 </div>
 </div>
 <p>Which will print to the Console, and also in our <code>log.txt</code> file.</p>

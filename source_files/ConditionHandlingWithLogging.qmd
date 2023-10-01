@@ -1,0 +1,170 @@
+---
+title: "Condition Handling With Logging"
+format: html
+engine: knitr
+webr:
+  channel-type: "post-message"
+  packages: ['log4r']
+filters:
+  - webr
+---
+
+## Condition Handling
+
+The book [Advanced R](https://adv-r.hadley.nz/index.html) has a great section on [conditions](https://adv-r.hadley.nz/conditions.html#conditions), and how to [handle them](https://adv-r.hadley.nz/conditions.html#handling-conditions). Please be sure to review that before continuing with the rest of this section.
+
+Also note that webR is enabled for this page, so you can run the code interactively and get a better sense of how this all works!
+
+## Conditions
+
+Ok, so maybe you didn't spend the time reading the chapter on [conditions in Advanced R](https://adv-r.hadley.nz/conditions.html#conditions), so here's a quick rundown:
+
+-   Conditions in R is similar to Python and raising an exception. Read [Hadley's translation of Peter Seibel's condition system in Lisp to R](http://adv-r.had.co.nz/beyond-exception-handling.html)), with a few differences.
+
+-   Conditions can be signaled through errors, warnings, and messages (`stop`, `warning`, `message` , respectively)
+
+    -   In stringr, [interp.R](https://github.com/tidyverse/stringr/blob/08ff36fa0ca365000197341b9540ff7126711497/R/interp.R#L104) shows an example of `stop()`, which will result in stopping the execution of any code.
+
+        -   
+
+            ``` r
+            # If there are nested placeholders, each part will not contain a full
+
+            # placeholder in which case we report invalid string interpolation template.
+
+            if (any(!grepl("\\\\\$(\\\\\[.\*?\\\\\])?\\\\{.+\\\\}", parts)))
+
+                stop("Invalid template string for interpolation.", call. = FALSE)
+            ```
+
+-   You can ignore conditions (using `try()`, `surpressWarnings()` , or `surpressMessages()` ) so that code will execute even if it errors
+
+-   You can also handle them (`tryCatch()` and `withCallingHandlers()`) to override the default of stopping your code execution, and perhaps try running the code that failed in an alternative way.
+
+## Signalling Conditions
+
+Try running the code below and see what happens.
+
+```{webr-r}
+print("Running some code")
+
+stop("This message will display. No more code will run after this.")
+
+print("Run more code. But this won't run because of the stop() above.")
+```
+
+Notice how the last code does not run? That's because the `stop()` function stops additional code from executing. Try changing it to a `warning()` and see what happens. 
+
+
+## Examples of Condition Handling
+
+Let's jump right into some examples of condition handling. We'll use the same example in the [Introduction section](Introduction.html#monitoring) that introduced `tryCatch().`
+
+The example below will print out a warning message when `log()` is attempting to compute a negative number. As a result, we print out a message saying something went wrong, and suggest that a negative number was computed, and pass along the warning message that `log()` generates. 
+
+```{webr-r}
+rand_int <- sample(-2:1, 3)
+
+for (i in rand_int) {
+  
+  print(paste0("Starting loop. The value of i is ", i))
+  modulo_result <- i%%2
+  
+  if (modulo_result == 0) {
+    
+    print("Variable i is an EVEN number") 
+    # proceed to do some additional steps here
+    
+    tryCatch(
+      
+      # calculate the log of value i
+      print(paste("The log of i is: ", log(i)))
+      
+      # if a warning is thrown from running log(), then handle it
+      , warning = function(w) {
+        
+        print(paste0("Uh oh. Something went wrong. Is i a negative number?: ", w))
+        
+        # MODIFY CODE HERE. 
+      }
+    
+    )
+  } else 
+    print("Variable i is an ODD number. Skipping the compute of log() for odd numbers.")
+    # don't do anything else
+}
+```
+
+Be sure to review the output above. You'll see the warning message `Uh oh…simpleWarning in log(i): NaNs produced\n`
+
+Now try modifying the code above, and change `Line 23` so that `log()` computes the absolute value of `i` .
+
+If you get stuck, expand the code block below!
+
+```{r eval=FALSE}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+      # calculate the log of value i
+      print(paste("The log of i is: ", log(i)))
+      
+      # if a warning is thrown from running log(), then handle it
+      , warning = function(w) {
+        
+        print(paste0("Uh oh. Something went wrong. Is i a negative number?: ", w))
+        
+        # MODIFY CODE HERE. 
+        # take absolute value of i instead
+        print(paste0("Using absolute value instead. The log of abs(i) is: ", log(abs(i))))
+
+      }
+
+```
+
+
+Other great examples where `tryCatch` can apply: 
+
+* You want to create a database connection. But if it fails, then `stop()` any further code execution. Or use `warning()` and try connecting to an alternative database or system. If this happens repeatedly then you can set up ways to get notified of recurring `warnings()` happening in your code.
+* You are doing some ETL process, but for whatever reason a row in the data frame can't be processed. You can send a `warning()` condition and continue processing subsequent rows. 
+
+
+## Condition Handling with log4r
+
+Let's convert the same code above, but include logging with the log4r package.
+
+```{webr-r}
+library(log4r)
+
+logger <- logger() 
+
+rand_int <- sample(-2:1, 3)
+
+for (i in rand_int) {
+  
+  log4r::info(logger, "Starting loop. The value of i is ", i)
+  modulo_result <- i%%2
+  
+  if (modulo_result == 0) {
+    
+    log4r::info(logger, "Variable i is an EVEN number") 
+    # proceed to do some additional steps here
+    
+    tryCatch(
+      
+      # calculate the log of value i
+      log4r::info(logger, paste("The log of i is: ", log(i)))
+      , warning = function(w) {
+        
+        # if a warning is thrown from running log(), then handle it
+        log4r::warn(logger, paste0("Uh oh. Something went wrong. Is i a negative number?: ", w))
+        
+      }
+    
+    )
+  } else 
+    log4r::info(logger, "Variable i is an ODD number. Skipping the compute of log() for odd numbers.")
+    # don't do anything else
+}
+```
+
+With a logging package like `log4r`, it's easier to see the urgency of each message. Several of these statements are just informational. But it's clear when a `WARN` message occurs, and you can use logging systems to alert on these specific severity levels.
